@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#07040d"/>
+  <circle cx="256" cy="256" r="180" fill="#fa0079" fill-opacity="0.15" />
+  
+  <g transform="translate(64, 100) scale(3.8)" stroke="#fa0079">
+    <!-- Motion Speed Lines -->
+    <line x1="2" y1="26" x2="22" y2="26" stroke="#fa0079" stroke-width="4" stroke-linecap="round" />
+    <line x1="8" y1="36" x2="26" y2="36" stroke="#fa0079" stroke-width="4" stroke-linecap="round" />
+    <line x1="4" y1="46" x2="20" y2="46" stroke="#fa0079" stroke-width="4" stroke-linecap="round" />
+
+    <!-- Driver Head / Helmet -->
+    <circle cx="56" cy="14" r="8" fill="#fa0079" />
+
+    <!-- Back Wheel -->
+    <circle cx="44" cy="50" r="10" stroke="#fa0079" stroke-width="5" fill="#07040d" />
+    <circle cx="44" cy="50" r="4" fill="#fa0079" />
+
+    <!-- Front Wheel -->
+    <circle cx="86" cy="50" r="10" stroke="#fa0079" stroke-width="5" fill="#07040d" />
+    <circle cx="86" cy="50" r="4" fill="#fa0079" />
+
+    <!-- Scooter Body & Chassis -->
+    <path
+      d="M38 38H56L66 48H76L82 32H72"
+      stroke="#fa0079"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <!-- Handlebar & Windshield column -->
+    <path
+      d="M82 32L78 20H84"
+      stroke="#fa0079"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <!-- Delivery Box / Seat -->
+    <path
+      d="M40 38V24H54V38"
+      stroke="#fa0079"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="#fa0079"
+      fill-opacity="0.3"
+    />
+  </g>
+</svg>

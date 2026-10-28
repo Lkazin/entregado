@@ -1,0 +1,19 @@
+{
+  "name": "NovaesWeb Entregador",
+  "short_name": "Entregador",
+  "description": "Tudo o que o motoboy precisa em um só lugar. Aplicativo de despacho, rotas e confirmação de entregas.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07040d",
+  "theme_color": "#fa0079",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+// Prisma Schema for NovaesWeb Entregador
+// Suitable for SQLite, PostgreSQL, MySQL or Supabase
+
+datasource db {
+  provider = "sqlite" // Change to "postgresql" or "mysql" for production DB
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Motoboy {
+  id               String   @id @default(cuid())
+  name             String
+  email            String   @unique
+  passwordHash     String
+  phone            String
+  avatarUrl        String?
+  vehicleModel     String   @default("Honda CG 160 Fan")
+  vehiclePlate     String   @default("BRA-2E19")
+  rating           Float    @default(4.9)
+  totalDeliveries  Int      @default(0)
+  storeName        String   @default("Burger House")
+  isOnline         Boolean  @default(true)
+  soundEnabled     Boolean  @default(true)
+  vibrationEnabled Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  orders           Order[]
+}
+
+model Order {
+  id                      String    @id @default(cuid())
+  orderNumber             String    @unique // e.g. "#0482"
+  status                  String    @default("pendente") // pendente, aguardando_retirada, em_rota, concluida, cancelada
+  orderValue              Float     // e.g. 42.90
+  deliveryFee             Float     // e.g. 8.00
+  itemsCount              Int       @default(1)
+
+  // Store information
+  storeName               String    @default("Burger House - Unidade Centro")
+  storeAddress            String    @default("Av. Principal, 123")
+  storeLat                Float     @default(-23.55052)
+  storeLng                Float     @default(-46.633308)
+
+  // Customer & Destination
+  customerName            String
+  customerPhone           String
+  destinationAddress      String
+  destinationNeighborhood String
+  destinationLat          Float
+  destinationLng          Float
+
+  // Distance & Code
+  distanceKm              Float     @default(2.8)
+  estimatedMinutes        Int       @default(7)
+  confirmationCode        String    // e.g. "1742"
+
+  createdAt               DateTime  @default(now())
+  acceptedAt              DateTime?
+  dispatchedAt            DateTime?
+  deliveredAt             DateTime?
+
+  motoboyId               String?
+  motoboy                 Motoboy?  @relation(fields: [motoboyId], references: [id])
+}

@@ -38,7 +38,7 @@ export default function DeliveryAppMain() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // Load initial session and database records
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (preferredStoreId?: string) => {
     setIsRefreshing(true);
     try {
       const [resAuth, resStores, resLinks] = await Promise.all([
@@ -65,11 +65,17 @@ export default function DeliveryAppMain() {
         currentLinks = resLinks.links;
       }
 
-      // Determine active store from active links
+      // Determine active store from preference, activeStore, or active links
       let selectedStore: Store | null = null;
-      if (currentLinks.length > 0) {
+      if (preferredStoreId) {
+        selectedStore = allStores.find((s) => s.id === preferredStoreId) || null;
+      }
+      if (!selectedStore && activeStore) {
+        selectedStore = allStores.find((s) => s.id === activeStore.id) || null;
+      }
+      if (!selectedStore && currentLinks.length > 0) {
         selectedStore = allStores.find((s) => s.id === currentLinks[0].storeId) || allStores[0] || null;
-      } else if (allStores.length > 0) {
+      } else if (!selectedStore && allStores.length > 0) {
         selectedStore = allStores[0];
       }
       setActiveStore(selectedStore);
@@ -113,8 +119,8 @@ export default function DeliveryAppMain() {
     loadData();
   }, [loadData]);
 
-  // Handle Login with strict password validation
-  const handleLogin = async (credentials: { email: string; password: string }) => {
+  // Handle Login with store code and strict password validation
+  const handleLogin = async (credentials: { email: string; password: string; storeCode?: string }) => {
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -125,7 +131,14 @@ export default function DeliveryAppMain() {
       if (data.success) {
         localStorage.setItem("novaesweb_session", "active");
         setIsAuthenticated(true);
-        await loadData();
+        if (data.store) {
+          setActiveStore(data.store);
+          await loadData(data.store.id);
+        } else {
+          await loadData();
+        }
+        setActiveScreen("tab_view");
+        setActiveTab("inicio");
         return { success: true };
       }
       return { success: false, error: data.error || "Credenciais inválidas" };
@@ -268,7 +281,7 @@ export default function DeliveryAppMain() {
           {/* Refresh DB state */}
           <button
             type="button"
-            onClick={loadData}
+            onClick={() => loadData()}
             className={`p-1 rounded-lg bg-[#1f1932] text-white/70 hover:text-white transition-all ${
               isRefreshing ? "animate-spin text-[#fa0079]" : ""
             }`}

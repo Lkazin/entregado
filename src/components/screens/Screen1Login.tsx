@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, AlertCircle, KeyRound, Building2, ArrowRight, RefreshCw } from "lucide-react";
 import { ScooterLogo } from "../icons";
 
 interface Screen1LoginProps {
-  onLogin?: (credentials: { email: string; password: string }) => Promise<boolean | { success: boolean; error?: string }> | void;
+  onLogin?: (credentials: {
+    email: string;
+    password: string;
+    storeCode: string;
+  }) => Promise<boolean | { success: boolean; error?: string }> | void;
   interactive?: boolean;
 }
 
@@ -13,13 +17,18 @@ export function Screen1Login({ onLogin }: Screen1LoginProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("motoboy@loja.com");
   const [password, setPassword] = useState("615210");
-  const [remember, setRemember] = useState(true);
+  const [storeCode, setStoreCode] = useState("NX-ACAI-7821");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setErrorMsg(null);
+
+    if (!storeCode.trim()) {
+      setErrorMsg("Informe o Código da Loja para ser direcionado ao painel correspondente.");
+      return;
+    }
 
     if (!email.trim()) {
       setErrorMsg("Informe seu e-mail ou telefone.");
@@ -32,16 +41,20 @@ export function Screen1Login({ onLogin }: Screen1LoginProps) {
     }
 
     if (password.trim() !== "615210") {
-      setErrorMsg("Senha incorreta. A senha é de 6 dígitos.");
+      setErrorMsg("Senha incorreta. A senha obrigatória é 615210.");
       return;
     }
 
     setLoading(true);
     try {
       if (onLogin) {
-        const res = await onLogin({ email, password });
+        const res = await onLogin({
+          email: email.trim(),
+          password: password.trim(),
+          storeCode: storeCode.trim().toUpperCase(),
+        });
         if (res && typeof res === "object" && !res.success) {
-          setErrorMsg(res.error || "Erro ao entrar.");
+          setErrorMsg(res.error || "Erro ao autenticar e vincular loja.");
         }
       }
     } catch {
@@ -52,12 +65,12 @@ export function Screen1Login({ onLogin }: Screen1LoginProps) {
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-between px-5 pt-8 pb-4 relative overflow-hidden text-center bg-[#07040d]">
-      {/* Background soft magenta glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#fa0079]/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="flex-1 flex flex-col justify-between px-5 pt-7 pb-4 relative overflow-y-auto text-center bg-[#07040d] custom-scrollbar">
+      {/* Background soft glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 bg-[#fa0079]/15 rounded-full blur-3xl pointer-events-none"></div>
 
-      {/* Top Branding Section */}
-      <div className="flex flex-col items-center mt-2 z-10">
+      {/* Top Universal Branding */}
+      <div className="flex flex-col items-center mt-1 z-10">
         <div className="mb-2 drop-shadow-[0_0_15px_rgba(250,0,121,0.6)]">
           <ScooterLogo className="w-16 h-10 text-[#fa0079]" />
         </div>
@@ -65,109 +78,137 @@ export function Screen1Login({ onLogin }: Screen1LoginProps) {
           <span className="text-xl font-extrabold tracking-tight text-white">NOVAES</span>
           <span className="text-xl font-black tracking-tight text-[#fa0079]">WEB</span>
         </div>
-        <span className="text-[9px] font-semibold tracking-[0.35em] text-white/90 uppercase mt-1">
+        <span className="text-[10px] font-bold tracking-[0.35em] text-[#fa0079] uppercase mt-1">
           ENTREGADOR
         </span>
 
-        <p className="text-[11px] text-white/70 mt-5 px-3 leading-snug">
-          Faça login para começar a receber suas entregas.
+        <p className="text-[11px] text-white/70 mt-3 px-3 leading-snug">
+          Insira o código de convite da loja para entrar diretamente no painel dela.
         </p>
       </div>
 
       {/* Form Section */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3 my-auto z-10 text-left">
-        {/* Email Field */}
-        <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#171524] border border-[#2b253e] rounded-xl focus-within:border-[#fa0079] transition-colors">
-          <Mail className="w-4 h-4 text-white/60 shrink-0" />
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail ou telefone"
-            autoComplete="username"
-            className="w-full bg-transparent text-[11px] text-white placeholder-white/40 focus:outline-none"
-          />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 my-3 z-10 text-left">
+        {/* Field 1: Código da Loja (Primary Key) */}
+        <div className="flex flex-col gap-1">
+          <label className="text-[9.5px] font-bold text-[#fa0079] uppercase tracking-wider flex items-center gap-1">
+            <KeyRound className="w-3 h-3 text-[#fa0079]" /> Código da Loja (Convite do Lojista)
+          </label>
+          <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#171426] border-2 border-[#fa0079]/60 focus-within:border-[#fa0079] rounded-xl transition-all shadow-[0_0_12px_rgba(250,0,121,0.2)]">
+            <Building2 className="w-4 h-4 text-[#fa0079] shrink-0" />
+            <input
+              type="text"
+              value={storeCode}
+              onChange={(e) => setStoreCode(e.target.value.toUpperCase())}
+              placeholder="Ex: NX-ACAI-7821"
+              autoComplete="off"
+              className="w-full bg-transparent text-xs font-mono font-bold text-white uppercase tracking-wider placeholder-white/30 focus:outline-none"
+            />
+          </div>
+
+          {/* Quick chips for easy testing */}
+          <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+            <span className="text-[8.5px] text-white/40">Lojas teste:</span>
+            <button
+              type="button"
+              onClick={() => setStoreCode("NX-ACAI-7821")}
+              className="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-[#1e1530] border border-[#3f255b] text-[#fa0079] hover:bg-[#fa0079] hover:text-white transition-all cursor-pointer"
+            >
+              Açaí do Rei
+            </button>
+            <button
+              type="button"
+              onClick={() => setStoreCode("NX-BURG-7069")}
+              className="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-[#1e1530] border border-[#3f255b] text-[#38bdf8] hover:bg-[#38bdf8] hover:text-black transition-all cursor-pointer"
+            >
+              Burger House
+            </button>
+            <button
+              type="button"
+              onClick={() => setStoreCode("NX-FOGO-1519")}
+              className="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-[#1e1530] border border-[#3f255b] text-[#f59e0b] hover:bg-[#f59e0b] hover:text-black transition-all cursor-pointer"
+            >
+              Fogo na Brasa
+            </button>
+          </div>
         </div>
 
-        {/* 6-Digit Password Field */}
-        <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#171524] border border-[#2b253e] rounded-xl focus-within:border-[#fa0079] transition-colors">
-          <Lock className="w-4 h-4 text-white/60 shrink-0" />
-          <input
-            type={showPassword ? "text" : "password"}
-            maxLength={6}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Senha de 6 dígitos"
-            autoComplete="current-password"
-            className="w-full bg-transparent text-[11px] text-white placeholder-white/40 focus:outline-none tracking-widest"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="text-white/60 hover:text-white shrink-0 cursor-pointer"
-          >
-            {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-          </button>
+        {/* Field 2: Email or Phone */}
+        <div className="flex flex-col gap-1">
+          <label className="text-[9.5px] font-bold text-white/60 uppercase tracking-wider">
+            Identificação do Entregador
+          </label>
+          <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#171524] border border-[#2b253e] rounded-xl focus-within:border-[#fa0079] transition-colors">
+            <Mail className="w-4 h-4 text-white/50 shrink-0" />
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-mail ou telefone"
+              autoComplete="username"
+              className="w-full bg-transparent text-[11px] text-white placeholder-white/40 focus:outline-none"
+            />
+          </div>
         </div>
 
-        {/* Error message */}
+        {/* Field 3: 6-Digit Password */}
+        <div className="flex flex-col gap-1">
+          <label className="text-[9.5px] font-bold text-white/60 uppercase tracking-wider">
+            Senha de 6 Dígitos
+          </label>
+          <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#171524] border border-[#2b253e] rounded-xl focus-within:border-[#fa0079] transition-colors">
+            <Lock className="w-4 h-4 text-white/50 shrink-0" />
+            <input
+              type={showPassword ? "text" : "password"}
+              maxLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="615210"
+              autoComplete="current-password"
+              className="w-full bg-transparent text-[11px] text-white placeholder-white/40 focus:outline-none tracking-widest font-mono"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-white/60 hover:text-white shrink-0 cursor-pointer"
+            >
+              {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Error message banner */}
         {errorMsg && (
-          <div className="p-2 rounded-lg bg-red-950/80 border border-red-500/40 text-red-300 text-[10px] flex items-center gap-1.5 animate-shake">
-            <AlertCircle className="w-3.5 h-3.5 shrink-0 text-red-400" />
-            <span>{errorMsg}</span>
+          <div className="p-2.5 rounded-xl bg-red-950/80 border border-red-500/50 text-red-300 text-[10px] flex items-center gap-2 animate-shake">
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+            <span className="leading-tight">{errorMsg}</span>
           </div>
         )}
 
-        {/* Remember Me */}
-        <label className="flex items-center gap-2 cursor-pointer mt-0.5 select-none">
-          <input
-            type="checkbox"
-            checked={remember}
-            onChange={(e) => setRemember(e.target.checked)}
-            className="accent-[#fa0079] w-3.5 h-3.5 rounded"
-          />
-          <span className="text-[10px] text-white/80">Lembrar de mim</span>
-        </label>
-
-        {/* Submit Button */}
+        {/* Submit button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 mt-2 bg-[#fa0079] hover:bg-[#e6006e] active:scale-[0.98] text-white text-xs font-bold rounded-xl transition-all shadow-[0_4px_16px_rgba(250,0,121,0.45)] cursor-pointer disabled:opacity-50"
+          className="w-full mt-2 py-3 bg-gradient-to-r from-[#fa0079] to-[#d60065] text-white text-xs font-bold rounded-xl shadow-[0_4px_15px_rgba(250,0,121,0.4)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
         >
-          {loading ? "Entrando..." : "Entrar"}
-        </button>
-
-        {/* Forgot password */}
-        <button
-          type="button"
-          onClick={() => alert("Para redefinir sua senha, solicite ao lojista ou administrador da sua loja na plataforma NovaesWeb.")}
-          className="text-center text-[10px] text-[#fa0079] hover:underline mt-1 font-medium cursor-pointer"
-        >
-          Esqueci minha senha
+          {loading ? (
+            <>
+              <RefreshCw className="w-4 h-4 animate-spin" />
+              Validando e Acessando Loja...
+            </>
+          ) : (
+            <>
+              Vincular e Acessar Loja
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
         </button>
       </form>
 
-      {/* Decorative Wave Trails at Bottom */}
-      <div className="relative w-full h-10 mt-auto pointer-events-none opacity-40">
-        <svg viewBox="0 0 200 40" fill="none" className="w-full h-full">
-          <path
-            d="M-20 30 C 50 10, 120 45, 220 20"
-            stroke="#fa0079"
-            strokeWidth="2"
-            strokeOpacity="0.4"
-          />
-          <path
-            d="M-10 35 C 60 15, 140 40, 210 25"
-            stroke="#fa0079"
-            strokeWidth="1"
-            strokeOpacity="0.25"
-          />
-        </svg>
+      {/* Footer Info */}
+      <div className="z-10 text-[9px] text-white/40 pt-2 border-t border-[#1d1730]">
+        <span>Solicite o código de convite ao lojista para liberar o recebimento de corridas daquela loja.</span>
       </div>
-
-      {/* Home Indicator */}
-      <div className="w-24 h-1 bg-white/20 rounded-full mx-auto mt-2"></div>
     </div>
   );
 }

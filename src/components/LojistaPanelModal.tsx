@@ -42,15 +42,15 @@ export function LojistaPanelModal({
   // Form for new order dispatch
   const [customerName, setCustomerName] = useState("Mariana Souza");
   const [customerPhone, setCustomerPhone] = useState("(51) 98765-4321");
-  const [destinationAddress, setDestinationAddress] = useState("Rua das Flores, 456");
-  const [destinationNeighborhood, setDestinationNeighborhood] = useState("Bairro Centro - Canoas/RS");
-  const [orderValue, setOrderValue] = useState("48.90");
-  const [deliveryFee, setDeliveryFee] = useState("8.00");
-  const [selectedCourierId, setSelectedCourierId] = useState<string>("mb-001");
+  const [destinationAddress, setDestinationAddress] = useState("");
+  const [destinationNeighborhood, setDestinationNeighborhood] = useState("");
+  const [orderValue, setOrderValue] = useState("");
+  const [deliveryFee, setDeliveryFee] = useState("");
+  const [selectedCourierId, setSelectedCourierId] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const storeId = activeStore?.id || "store-acai-01";
-  const storeName = activeStore?.name || "Açaí do Rei";
+  const storeId = activeStore?.id || "";
+  const storeName = activeStore?.name || "Nenhuma loja vinculada";
 
   const loadLojistaData = async () => {
     if (!storeId) return;

@@ -38,21 +38,21 @@ export function ScreenProfile({
   activeTab = "perfil",
 }: ScreenProfileProps) {
   const profile = motoboy || {
-    name: "Carlos Silva",
-    email: "motoboy@loja.com",
-    phone: "(11) 97123-4567",
-    vehicleModel: "Honda CG 160 Fan",
-    vehiclePlate: "BRA-2E19",
-    rating: 4.9,
+    name: "Entregador",
+    email: "entregador@novaesweb.com.br",
+    phone: "(00) 00000-0000",
+    vehicleModel: "Não cadastrado",
+    vehiclePlate: "---",
+    rating: 5.0,
   };
-  const storeName = activeStore?.name || "Açaí do Rei";
+  const storeName = activeStore?.name || "Nenhuma loja vinculada";
 
-  const todayEarnings = stats?.todayEarnings ?? 96.0;
+  const todayEarnings = stats?.todayEarnings ?? 0.0;
 
   // Editable fields by the motoboy
   const [isEditing, setIsEditing] = useState(false);
-  const [phone, setPhone] = useState(profile.phone || "(11) 97123-4567");
-  const [vehicleModel, setVehicleModel] = useState(profile.vehicleModel || "Honda CG 160 Fan");
+  const [phone, setPhone] = useState(profile.phone || "");
+  const [vehicleModel, setVehicleModel] = useState(profile.vehicleModel || "");
   const [vehiclePlate, setVehiclePlate] = useState(profile.vehiclePlate || "BRA-2E19");
   const [savedSuccess, setSavedSuccess] = useState(false);
 

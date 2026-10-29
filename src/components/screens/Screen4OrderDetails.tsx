@@ -13,18 +13,18 @@ interface Screen4OrderDetailsProps {
 
 export function Screen4OrderDetails({ order, onBack, onStartRoute }: Screen4OrderDetailsProps) {
   const currentOrder = order || {
-    id: "ord-0101",
-    orderNumber: "#0101",
-    orderValue: 38.5,
-    deliveryFee: 8.0,
-    storeName: "Açaí do Rei",
-    storeAddress: "Av. Boqueirão, 1200 - Canoas/RS",
-    customerName: "Mariana Souza",
-    customerPhone: "(51) 98765-4321",
-    destinationAddress: "Rua das Flores, 456",
-    destinationNeighborhood: "Bairro Centro - Canoas/RS",
-    distanceKm: 2.8,
-    estimatedMinutes: 7,
+    id: "ord-0000",
+    orderNumber: "#----",
+    orderValue: 0.0,
+    deliveryFee: 0.0,
+    storeName: "Loja Parceira",
+    storeAddress: "Endereço da loja",
+    customerName: "Cliente",
+    customerPhone: "(00) 00000-0000",
+    destinationAddress: "Endereço de entrega",
+    destinationNeighborhood: "Bairro",
+    distanceKm: 0.0,
+    estimatedMinutes: 0,
   };
 
   const wazeUrl = `https://waze.com/ul?q=${encodeURIComponent(

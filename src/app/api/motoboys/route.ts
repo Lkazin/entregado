@@ -14,21 +14,7 @@ export async function GET() {
 
   const motoboy = await db.getMotoboy();
   return NextResponse.json({
-    motoboys: [
-      motoboy,
-      {
-        id: "mb-002",
-        name: "Marcos Oliveira",
-        email: "marcos@loja.com",
-        phone: "(11) 98234-5678",
-        vehicleModel: "Yamaha Factor 150",
-        vehiclePlate: "FLX-4A20",
-        rating: 4.8,
-        totalDeliveries: 312,
-        storeName: "Burger House",
-        isOnline: false,
-      },
-    ],
+    motoboys: [motoboy],
   });
 }
 

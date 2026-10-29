@@ -53,15 +53,15 @@ export function ScooterLogo({ className = "w-12 h-12 text-[#fa0079]" }: { classN
   );
 }
 
-// Burger House Store Avatar
+// Generic Store Avatar
 export function BurgerHouseLogo({ className = "w-10 h-10" }: { className?: string }) {
   return (
     <div
-      className={`rounded-full border-2 border-amber-500 bg-amber-950/80 flex items-center justify-center p-1 text-center shadow-[0_0_10px_rgba(245,158,11,0.3)] ${className}`}
+      className={`rounded-full border-2 border-[#fa0079] bg-[#1e1530] flex items-center justify-center p-1 text-center shadow-[0_0_10px_rgba(250,0,121,0.3)] ${className}`}
     >
       <div className="flex flex-col items-center justify-center leading-none">
-        <span className="text-[7px] font-black tracking-tight text-amber-400 uppercase">BURGER</span>
-        <span className="text-[6px] font-bold text-amber-200 uppercase">HOUSE</span>
+        <span className="text-[7px] font-black tracking-tight text-[#fa0079] uppercase">LOJA</span>
+        <span className="text-[6px] font-bold text-white uppercase">PARCEIRA</span>
       </div>
     </div>
   );

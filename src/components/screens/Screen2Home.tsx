@@ -59,8 +59,8 @@ export function Screen2Home({
   const [showLojistaModal, setShowLojistaModal] = useState(false);
   const [showStoreSwitcher, setShowStoreSwitcher] = useState(false);
 
-  const storeDisplayName = activeStore?.name || "Açaí do Rei";
-  const storeDisplayAddress = activeStore?.address || "Av. Boqueirão, 1200 - Canoas/RS";
+  const storeDisplayName = activeStore?.name || "Nenhuma loja vinculada";
+  const storeDisplayAddress = activeStore?.address || "Insira um código de convite para conectar";
 
   return (
     <div className="flex-1 flex flex-col justify-between text-left relative overflow-hidden bg-[#0c0a16]">
@@ -167,7 +167,7 @@ export function Screen2Home({
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <h3 className="text-[11px] font-bold text-white">Próxima entrega</h3>
-            <span className="text-[9px] text-white/40">Destinada a {motoboy?.name || "Carlos Silva"}</span>
+            <span className="text-[9px] text-white/40">Destinada a {motoboy?.name || "Entregador"}</span>
           </div>
 
           {order ? (

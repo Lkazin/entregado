@@ -19,13 +19,13 @@ export function Screen3NewOrderAlert({
   soundEnabled = true,
 }: Screen3NewOrderAlertProps) {
   const currentOrder = order || {
-    id: "ord-0101",
-    orderNumber: "#0101",
-    orderValue: 38.5,
-    storeName: "Açaí do Rei",
-    storeAddress: "Av. Boqueirão, 1200 - Canoas/RS",
-    destinationAddress: "Rua das Flores, 456",
-    destinationNeighborhood: "Bairro Centro - Canoas/RS",
+    id: "ord-0000",
+    orderNumber: "#----",
+    orderValue: 0.0,
+    storeName: "Loja Parceira",
+    storeAddress: "Endereço da loja",
+    destinationAddress: "Endereço de entrega",
+    destinationNeighborhood: "Bairro",
   };
 
   useEffect(() => {

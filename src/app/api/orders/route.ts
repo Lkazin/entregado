@@ -46,24 +46,28 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    if (!body.storeId || !body.storeName) {
+      return NextResponse.json({ error: "Identificação da loja (storeId e storeName) é obrigatória." }, { status: 400 });
+    }
+
     const newOrder = await db.createOrder({
-      orderNumber: body.orderNumber,
-      storeId: body.storeId || "store-acai-01",
-      storeName: body.storeName || "Açaí do Rei",
-      storeAddress: body.storeAddress || "Av. Boqueirão, 1200 - Canoas/RS",
-      assignedCourierId: body.assignedCourierId || "mb-001",
-      assignedCourierName: body.assignedCourierName || "Carlos Silva",
+      orderNumber: body.orderNumber || `#${Math.floor(1000 + Math.random() * 9000)}`,
+      storeId: body.storeId,
+      storeName: body.storeName,
+      storeAddress: body.storeAddress || "",
+      assignedCourierId: body.assignedCourierId || "",
+      assignedCourierName: body.assignedCourierName || "Entregador",
       status: (body.status as OrderStatus) || "aguardando_retirada",
-      orderValue: body.orderValue || 45.9,
-      deliveryFee: body.deliveryFee || 8.0,
-      itemsCount: body.itemsCount || 2,
-      customerName: body.customerName || "Lucas Silveira",
-      customerPhone: body.customerPhone || "(51) 98765-4321",
-      destinationAddress: body.destinationAddress || "Rua das Flores, 456",
-      destinationNeighborhood: body.destinationNeighborhood || "Bairro Centro - Canoas/RS",
-      distanceKm: body.distanceKm || 2.8,
-      estimatedMinutes: body.estimatedMinutes || 7,
-      confirmationCode: body.confirmationCode || "1742",
+      orderValue: Number(body.orderValue || 0),
+      deliveryFee: Number(body.deliveryFee || 0),
+      itemsCount: Number(body.itemsCount || 1),
+      customerName: body.customerName || "Cliente",
+      customerPhone: body.customerPhone || "",
+      destinationAddress: body.destinationAddress || "",
+      destinationNeighborhood: body.destinationNeighborhood || "",
+      distanceKm: Number(body.distanceKm || 0),
+      estimatedMinutes: Number(body.estimatedMinutes || 0),
+      confirmationCode: body.confirmationCode || `${Math.floor(10 + Math.random() * 90)}`,
     });
 
     return NextResponse.json({ success: true, order: newOrder }, { status: 201 });

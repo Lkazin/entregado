@@ -6,12 +6,12 @@ export type OrderStatus =
   | "cancelada";
 
 export interface Store {
-  id: string; // Slug oficial ou ID seguro da loja (ex: acai-do-rei-canoas)
-  name: string; // e.g. "Açaí do Rei"
-  category?: string; // e.g. "Açaí & Sobremesas"
-  address: string; // e.g. "Av. Boqueirão, 1200 - Canoas"
-  phone: string; // e.g. "(51) 99888-7777"
-  defaultDeliveryFee: number; // e.g. 8.00
+  id: string; // Slug oficial ou ID seguro da loja na NovaesWeb
+  name: string; // Nome fantasia do estabelecimento
+  category?: string; // Segmento gastronômico ou comercial
+  address: string; // Endereço físico para retirada dos pedidos
+  phone: string; // Telefone ou WhatsApp de contato
+  defaultDeliveryFee: number; // Taxa padrão de entrega
   webhookUrl?: string;
   logoUrl?: string;
   isActive: boolean;
@@ -32,7 +32,7 @@ export interface StoreInvite {
   id: string;
   storeId: string;
   storeName: string;
-  code: string; // e.g. "NX-ACAI-7821"
+  code: string; // Formato padrão: NX-[PREFIXO]-[ALEATORIO]
   maxUses: number; // Padrão: 1 uso único
   usedCount: number;
   isRevoked: boolean;

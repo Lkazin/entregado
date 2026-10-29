@@ -15,9 +15,9 @@ interface Screen1LoginProps {
 
 export function Screen1Login({ onLogin }: Screen1LoginProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("motoboy@loja.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("615210");
-  const [storeCode, setStoreCode] = useState("NX-ACAI-7821");
+  const [storeCode, setStoreCode] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -100,36 +100,10 @@ export function Screen1Login({ onLogin }: Screen1LoginProps) {
               type="text"
               value={storeCode}
               onChange={(e) => setStoreCode(e.target.value.toUpperCase())}
-              placeholder="Ex: NX-ACAI-7821"
+              placeholder="Ex: Digite o código da loja"
               autoComplete="off"
               className="w-full bg-transparent text-xs font-mono font-bold text-white uppercase tracking-wider placeholder-white/30 focus:outline-none"
             />
-          </div>
-
-          {/* Quick chips for easy testing */}
-          <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
-            <span className="text-[8.5px] text-white/40">Lojas teste:</span>
-            <button
-              type="button"
-              onClick={() => setStoreCode("NX-ACAI-7821")}
-              className="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-[#1e1530] border border-[#3f255b] text-[#fa0079] hover:bg-[#fa0079] hover:text-white transition-all cursor-pointer"
-            >
-              Açaí do Rei
-            </button>
-            <button
-              type="button"
-              onClick={() => setStoreCode("NX-BURG-7069")}
-              className="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-[#1e1530] border border-[#3f255b] text-[#38bdf8] hover:bg-[#38bdf8] hover:text-black transition-all cursor-pointer"
-            >
-              Burger House
-            </button>
-            <button
-              type="button"
-              onClick={() => setStoreCode("NX-FOGO-1519")}
-              className="text-[8.5px] font-mono px-1.5 py-0.5 rounded bg-[#1e1530] border border-[#3f255b] text-[#f59e0b] hover:bg-[#f59e0b] hover:text-black transition-all cursor-pointer"
-            >
-              Fogo na Brasa
-            </button>
           </div>
         </div>
 

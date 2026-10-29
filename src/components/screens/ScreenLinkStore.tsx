@@ -97,29 +97,10 @@ export function ScreenLinkStore({
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value.toUpperCase())}
-              placeholder="Ex: NX-ACAI-7821"
+              placeholder="Ex: Digite o código gerado pelo lojista"
               className="w-full bg-transparent text-xs font-bold text-white uppercase tracking-wider placeholder-white/30 focus:outline-none"
             />
           </div>
-        </div>
-
-        {/* Quick Suggestion Chips */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[9px] text-white/40">Códigos ativos:</span>
-          <button
-            type="button"
-            onClick={() => setCode("NX-ACAI-7821")}
-            className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#1e1730] border border-[#3b2b5a] text-[#fa0079] hover:bg-[#fa0079] hover:text-white transition-all"
-          >
-            NX-ACAI-7821 (Açaí do Rei)
-          </button>
-          <button
-            type="button"
-            onClick={() => setCode("NX-BURGER-4512")}
-            className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#1e1730] border border-[#3b2b5a] text-[#38bdf8] hover:bg-[#38bdf8] hover:text-black transition-all"
-          >
-            NX-BURGER-4512 (Burger House)
-          </button>
         </div>
 
         {/* Error Feedback */}
